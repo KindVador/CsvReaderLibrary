@@ -5,7 +5,7 @@
 class CsvReader
 {
 public:
-    CsvReader();
+    CsvReader() = default;
     CsvReader(QString filePath, QChar separator, QChar comment);
     ~CsvReader();
 

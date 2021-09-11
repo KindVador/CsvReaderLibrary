@@ -1,9 +1,5 @@
 #include "csvreader.hpp"
 
-CsvReader::CsvReader()
-{
-}
-
 CsvReader::CsvReader(QString filePath, QChar separator, QChar comment):
     _file(filePath), _separator(separator), _comments(comment)
 {
