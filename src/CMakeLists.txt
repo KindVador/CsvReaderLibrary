@@ -13,10 +13,9 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
 
 add_library(CsvReader SHARED
-            csvreader.cpp
-            csvreader.hpp
-            gmtfield.cpp
-            gmtfield.hpp)
+            csvreader.hpp csvreader.cpp
+            gmtfield.hpp gmtfield.cpp
+            field.hpp field.cpp)
 
 target_link_libraries(CsvReader PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 
