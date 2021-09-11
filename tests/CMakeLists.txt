@@ -17,9 +17,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 enable_testing()
 
-add_executable(TestsCsvReader tst_csvreader.cpp)
+add_executable( TestsCsvReader
+                tst_csvreader.cpp)
+
+add_executable( TestsGmtField
+        tst_gmtfield.cpp)
 
 add_test(NAME TestsCsvReader COMMAND TestsCsvReader)
+add_test(NAME TestsGmtField COMMAND TestsGmtField)
 
 find_library (
     CSV_READER_LIB
@@ -32,3 +37,4 @@ find_library (
 message(STATUS "CSV_READER_LIB: [${CSV_READER_LIB}]")
 
 target_link_libraries(TestsCsvReader PRIVATE Qt6::Test ${CSV_READER_LIB})
+target_link_libraries(TestsGmtField PRIVATE Qt6::Test ${CSV_READER_LIB})
