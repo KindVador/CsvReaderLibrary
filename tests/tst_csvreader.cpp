@@ -16,18 +16,19 @@ private slots:
         qDebug("Called before everything else.");
     }
 
-    void testFile1() {
-
+    void testDefaultConstructor() {
+        CsvReader *reader = new CsvReader();
+        QVERIFY(reader != nullptr);
+        QCOMPARE(reader->separator(), QChar());
+        QCOMPARE(reader->comments(), QChar());
     }
 
-    void myFirstTest() {
-        QVERIFY(true);      // check that a condition is satisfied
-        QCOMPARE(1, 1);     // compare two values
-    }
-
-    void mySecondTest() {
-        QVERIFY(myCondition());
-        QVERIFY(1 != 2);
+    void testInitConstructor() {
+        QString testFilePath = QString("");
+        CsvReader *reader = new CsvReader(testFilePath, QChar(';'), QChar('#'));
+        QVERIFY(reader != nullptr);
+        QCOMPARE(reader->separator(), QChar(';'));
+        QCOMPARE(reader->comments(), QChar('#'));
     }
 
     void cleanupTestCase() {
@@ -35,6 +36,6 @@ private slots:
     }
 };
 
-QTEST_APPLESS_MAIN(CsvReaderTest)
+QTEST_APPLESS_MAIN(CsvReaderTest)   // or QTEST_MAIN(CsvReaderTest) ?
 
 #include "tst_csvreader.moc"
