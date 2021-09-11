@@ -21,6 +21,12 @@ private slots:
         QVERIFY(gmt != nullptr);
     }
 
+    void testInitConstructor() {
+        GmtField *gmt = new GmtField(1000000L);
+        QVERIFY(gmt != nullptr);
+        QCOMPARE(gmt->toTimeStamp(), 1000000L);
+    }
+
     void testDateTimeParsing_data() {
         QTest::addColumn<QString>("format");
         QTest::addColumn<QString>("value");
