@@ -25,6 +25,10 @@ public:
     static GmtField fromDateTime(QDateTime dt);
     static GmtField fromString(QString str, QString format);
 
+    // Getter & Setter
+    int getYear() const;
+    void setYear(int year);
+
     // methods
     QDateTime toDateTime() const;
     [[nodiscard]] long long int toTimeStamp() const;
@@ -33,4 +37,5 @@ public:
 
 private:
     long long int _value = 0;
+    int _year = 1970;
 };

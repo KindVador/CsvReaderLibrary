@@ -53,7 +53,19 @@ private slots:
         QCOMPARE(gmt.toString(), result);
         QCOMPARE(gmt.toStdString(), result.toStdString());
     }
-    
+
+    void testGetYear() {
+        GmtField gmt = GmtField(0);
+        QCOMPARE(gmt.getYear(), 1970);
+    }
+
+    void testSetYear() {
+        GmtField gmt = GmtField(0);
+        QCOMPARE(gmt.getYear(), 1970);
+        gmt.setYear(2021);
+        QCOMPARE(gmt.getYear(), 2021);
+    }
+
     void testDateTimeParsing_data() {
         QTest::addColumn<QString>("format");
         QTest::addColumn<QString>("value");

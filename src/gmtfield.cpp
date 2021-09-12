@@ -59,3 +59,11 @@ bool GmtField::isGmt(QString str) {
 long long int GmtField::toTimeStamp() const {
     return _value;
 }
+
+int GmtField::getYear() const {
+    return _year;
+}
+
+void GmtField::setYear(int year) {
+    _year = year;
+}
