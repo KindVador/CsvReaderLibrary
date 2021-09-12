@@ -4,6 +4,12 @@
 #include <QString>
 #include <QDateTime>
 
+static long long int SEC_IN_MICRO = 1000000L;
+static long long int MILLI_IN_MICRO = 1000L;
+static long long int DAY_IN_MICRO = 86400000000L;
+static long long int HOUR_IN_MICRO = 3600000000L;
+static long long int MINUTE_IN_MICRO = 60000000L;
+
 class GmtField : public Field {
 
 public:
