@@ -1,16 +1,14 @@
 #include "gmtfield.hpp"
+#include <QTimeZone>
 
 GmtField::GmtField(long long int value): _value(value) {
 }
 
 QDateTime GmtField::toDateTime() const {
-
-    return QDateTime();
+    return QDateTime(getDate(), getTime(), QTimeZone::utc());
 }
 
 GmtField GmtField::fromString(QString str, QString format) {
-
-
     return GmtField();
 }
 
@@ -47,12 +45,10 @@ std::string GmtField::toStdString() const {
 }
 
 GmtField GmtField::fromDateTime(QDateTime dt) {
-
     return GmtField();
 }
 
 bool GmtField::isGmt(QString str) {
-
     return false;
 }
 
@@ -66,4 +62,13 @@ int GmtField::getYear() const {
 
 void GmtField::setYear(int year) {
     _year = year;
+}
+
+QDate GmtField::getDate() const {
+    int yd = int(_value / DAY_IN_MICRO);
+    return QDate(getYear(), 1, 1).addDays(yd);
+}
+
+QTime GmtField::getTime() const {
+    return QTime();
 }

@@ -2,6 +2,8 @@
 
 #include "field.hpp"
 #include <QString>
+#include <QDate>
+#include <QTime>
 #include <QDateTime>
 
 static long long int SEC_IN_MICRO = 1000000L;
@@ -26,14 +28,16 @@ public:
     static GmtField fromString(QString str, QString format);
 
     // Getter & Setter
-    int getYear() const;
+    [[nodiscard]] int getYear() const;
     void setYear(int year);
 
     // methods
-    QDateTime toDateTime() const;
+    [[nodiscard]] QDateTime toDateTime() const;
     [[nodiscard]] long long int toTimeStamp() const;
     [[nodiscard]] QString toString() const override;
     [[nodiscard]] std::string toStdString() const override;
+    [[nodiscard]] QDate getDate() const;
+    [[nodiscard]] QTime getTime() const;
 
 private:
     long long int _value = 0;

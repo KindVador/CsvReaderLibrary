@@ -17,12 +17,12 @@ private slots:
     }
 
     void testDefaultConstructor() {
-        GmtField *gmt = new GmtField();
+        auto *gmt = new GmtField();
         QVERIFY(gmt != nullptr);
     }
 
     void testInitConstructor() {
-        GmtField *gmt = new GmtField(1000000L);
+        auto *gmt = new GmtField(1000000L);
         QVERIFY(gmt != nullptr);
         QCOMPARE(gmt->toTimeStamp(), 1000000L);
     }
@@ -48,44 +48,66 @@ private slots:
         QFETCH(long long int, value);
         QFETCH(QString, result);
 
-        GmtField gmt = GmtField(value);
-        qDebug() << "gmt value:" << gmt.toString();
+        auto gmt = GmtField(value);
         QCOMPARE(gmt.toString(), result);
         QCOMPARE(gmt.toStdString(), result.toStdString());
     }
 
     void testGetYear() {
-        GmtField gmt = GmtField(0);
+        auto gmt = GmtField(0);
         QCOMPARE(gmt.getYear(), 1970);
     }
 
     void testSetYear() {
-        GmtField gmt = GmtField(0);
+        auto gmt = GmtField(0);
         QCOMPARE(gmt.getYear(), 1970);
         gmt.setYear(2021);
         QCOMPARE(gmt.getYear(), 2021);
     }
 
-    void testDateTimeParsing_data() {
-        QTest::addColumn<QString>("format");
-        QTest::addColumn<QString>("value");
-        QTest::addColumn<QDateTime>("result");
+    void testGetDate_data() {
+        QTest::addColumn<long long int>("value");
+        QTest::addColumn<int>("year");
+        QTest::addColumn<QDate>("result");
 
-        QTest::addRow("FORMAT1") << "%j-%H:%M:%S-%f.%f" << "002-10:55:00-000.000" << QDateTime();
-        QTest::addRow("FORMAT2") << "%j-%H:%M:%S-%f" << "144-14:25:00-062.500" << QDateTime();
-        QTest::addRow("FORMAT3") << "%j-%H:%M:%S:%f" << "042-13:55:00:250" << QDateTime();
-        QTest::addRow("FORMAT4") << "%j-%H:%M:%S" << "002-10:55:00" << QDateTime();
+        QTest::addRow("%d", 0) << (long long int)0 << 1970 << QDate(1970, 1, 1);
+        QTest::addRow("%d", 1) << DAY_IN_MICRO << 1970 << QDate(1970, 1, 2);
+        QTest::addRow("%d", 2) << 2*DAY_IN_MICRO << 1970 << QDate(1970, 1, 3);
+        QTest::addRow("%d", 3) << 31*DAY_IN_MICRO << 2021 << QDate(2021, 2, 1);
+        QTest::addRow("%d", 4) << 207*DAY_IN_MICRO << 1983 << QDate(1983, 7, 27);
+        QTest::addRow("%d", 5) << 365*DAY_IN_MICRO << 1983 << QDate(1984, 1, 1);
     }
 
-    void testDateTimeParsing() {
-        QFETCH(QString, format);
-        QFETCH(QString, value);
-        QFETCH(QDateTime, result);
+    void testGetDate() {
+        QFETCH(long long int, value);
+        QFETCH(int, year);
+        QFETCH(QDate, result);
 
-        GmtField gmt = GmtField();
-
-        QCOMPARE(gmt.toDateTime(), result);
+        auto gmt = GmtField(value);
+        gmt.setYear(year);
+        QCOMPARE(gmt.getDate(), result);
     }
+
+//    void testDateTimeParsing_data() {
+//        QTest::addColumn<QString>("format");
+//        QTest::addColumn<QString>("value");
+//        QTest::addColumn<QDateTime>("result");
+//
+//        QTest::addRow("FORMAT1") << "%j-%H:%M:%S-%f.%f" << "002-10:55:00-000.000" << QDateTime();
+//        QTest::addRow("FORMAT2") << "%j-%H:%M:%S-%f" << "144-14:25:00-062.500" << QDateTime();
+//        QTest::addRow("FORMAT3") << "%j-%H:%M:%S:%f" << "042-13:55:00:250" << QDateTime();
+//        QTest::addRow("FORMAT4") << "%j-%H:%M:%S" << "002-10:55:00" << QDateTime();
+//    }
+//
+//    void testDateTimeParsing() {
+//        QFETCH(QString, format);
+//        QFETCH(QString, value);
+//        QFETCH(QDateTime, result);
+//
+//        GmtField gmt = GmtField();
+//
+//        QCOMPARE(gmt.toDateTime(), result);
+//    }
 
     void cleanupTestCase() {
         qDebug("Called after myFirstTest and mySecondTest.");
