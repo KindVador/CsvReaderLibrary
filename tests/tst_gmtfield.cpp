@@ -88,6 +88,26 @@ private slots:
         QCOMPARE(gmt.getDate(), result);
     }
 
+    void testGetTime_data() {
+        QTest::addColumn<long long int>("value");
+        QTest::addColumn<QTime>("result");
+
+        QTest::addRow("%d", 0) << (long long int)0 << QTime(0, 0, 0);
+        QTest::addRow("%d", 1) << HOUR_IN_MICRO << QTime(1, 0, 0);
+        QTest::addRow("%d", 2) << MINUTE_IN_MICRO << QTime(0, 1, 0);
+        QTest::addRow("%d", 3) << SEC_IN_MICRO << QTime(0, 0, 1);
+        QTest::addRow("%d", 4) << 13*HOUR_IN_MICRO + 31*MINUTE_IN_MICRO + 55*SEC_IN_MICRO << QTime(13, 31, 55);
+        QTest::addRow("%d", 5) << 23*HOUR_IN_MICRO + 59*MINUTE_IN_MICRO + 59*SEC_IN_MICRO << QTime(23, 59, 59);
+    }
+
+    void testGetTime() {
+        QFETCH(long long int, value);
+        QFETCH(QTime, result);
+
+        auto gmt = GmtField(value);
+        QCOMPARE(gmt.getTime(), result);
+    }
+
 //    void testDateTimeParsing_data() {
 //        QTest::addColumn<QString>("format");
 //        QTest::addColumn<QString>("value");

@@ -70,5 +70,18 @@ QDate GmtField::getDate() const {
 }
 
 QTime GmtField::getTime() const {
-    return QTime();
+    long long int rest = _value % DAY_IN_MICRO;
+
+    int hh = int(rest / HOUR_IN_MICRO);
+    rest %= HOUR_IN_MICRO;
+
+    int mm = int(rest / MINUTE_IN_MICRO);
+    rest %= MINUTE_IN_MICRO;
+
+    int ss = int(rest / SEC_IN_MICRO);
+    rest %= SEC_IN_MICRO;
+
+    int ms = int(rest / MILLI_IN_MICRO);
+
+    return QTime(hh, mm, ss, ms);
 }
