@@ -1,11 +1,11 @@
 #include "gmtfield.hpp"
-#include <QTimeZone>
+
 
 GmtField::GmtField(long long int value): _value(value) {
 }
 
-QDateTime GmtField::toDateTime() const {
-    return QDateTime(getDate(), getTime(), QTimeZone::utc());
+QDateTime GmtField::toDateTime(const QTimeZone &tz) const {
+    return QDateTime(getDate(), getTime(), tz);
 }
 
 GmtField GmtField::fromString(QString str, QString format) {

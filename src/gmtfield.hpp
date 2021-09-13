@@ -5,6 +5,7 @@
 #include <QDate>
 #include <QTime>
 #include <QDateTime>
+#include <QTimeZone>
 
 static long long int SEC_IN_MICRO = 1000000L;
 static long long int MILLI_IN_MICRO = 1000L;
@@ -32,7 +33,7 @@ public:
     void setYear(int year);
 
     // methods
-    [[nodiscard]] QDateTime toDateTime() const;
+    [[nodiscard]] QDateTime toDateTime(const QTimeZone &tz=QTimeZone::utc()) const;
     [[nodiscard]] long long int toTimeStamp() const;
     [[nodiscard]] QString toString() const override;
     [[nodiscard]] std::string toStdString() const override;
