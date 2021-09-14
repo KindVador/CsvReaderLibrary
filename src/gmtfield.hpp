@@ -26,7 +26,7 @@ public:
     // classmethods
     static bool isGmt(QString str);
     static GmtField fromDateTime(QDateTime dt);
-    static GmtField fromString(QString str, QString format);
+    static GmtField fromString(const QString &str, const QString &format);
 
     // Getter & Setter
     [[nodiscard]] int getYear() const;

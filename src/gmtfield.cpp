@@ -5,11 +5,11 @@ GmtField::GmtField(long long int value): _value(value) {
 }
 
 QDateTime GmtField::toDateTime(const QTimeZone &tz) const {
-    return QDateTime(getDate(), getTime(), tz);
+    return {getDate(), getTime(), tz};
 }
 
-GmtField GmtField::fromString(QString str, QString format) {
-    return GmtField();
+GmtField GmtField::fromString(const QString &str, const QString &format) {
+    return {};
 }
 
 QString GmtField::toString() const {
@@ -45,14 +45,17 @@ std::string GmtField::toStdString() const {
 }
 
 GmtField GmtField::fromDateTime(QDateTime dt) {
+    // TODO
     return GmtField();
 }
 
 bool GmtField::isGmt(QString str) {
+    // TODO
     return false;
 }
 
 long long int GmtField::toTimeStamp() const {
+    // TODO
     return _value;
 }
 
@@ -83,5 +86,5 @@ QTime GmtField::getTime() const {
 
     int ms = int(rest / MILLI_IN_MICRO);
 
-    return QTime(hh, mm, ss, ms);
+    return {hh, mm, ss, ms};
 }

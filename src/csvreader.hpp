@@ -6,13 +6,13 @@ class CsvReader
 {
 public:
     CsvReader() = default;
-    CsvReader(QString filePath, QChar separator, QChar comment);
-    ~CsvReader();
+    CsvReader(const QString &filePath, QChar separator, QChar comment);
+    ~CsvReader() = default;
 
-    QChar separator() const;
+    [[nodiscard]] QChar separator() const;
     void setSeparator(const QChar &separator);
 
-    QChar comments() const;
+    [[nodiscard]] QChar comments() const;
     void setComments(const QChar &comments);
 
 private:
