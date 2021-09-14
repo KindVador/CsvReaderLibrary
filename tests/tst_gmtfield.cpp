@@ -164,6 +164,23 @@ private slots:
         QCOMPARE(gmt.getValue(), value);
     }
 
+    void testfindGmtFormat_data() {
+        QTest::addColumn<QString>("input");
+        QTest::addColumn<QString>("result");
+
+        QTest::addRow("FORMAT: %%j-%%H:%%M:%%S-%%f.%%f") << "002-10:55:00-000.000" << "%j-%H:%M:%S-%f.%f";
+        QTest::addRow("FORMAT: %%j-%%H:%%M:%%S-%%f") << "144-14:25:00-062" << "%j-%H:%M:%S-%f";
+        QTest::addRow("FORMAT: %%j-%%H:%%M:%%S:%%f") << "042-13:55:00:250" << "%j-%H:%M:%S:%f";
+        QTest::addRow("FORMAT: %%j-%%H:%%M:%%S") << "002-10:55:00" << "%j-%H:%M:%S";
+    }
+
+    void testfindGmtFormat() {
+        QFETCH(QString, input);
+        QFETCH(QString, result);
+
+        QCOMPARE(findGmtFormat(input), result);
+    }
+
 //    void testDateTimeParsing_data() {
 //        QTest::addColumn<QString>("format");
 //        QTest::addColumn<QString>("value");

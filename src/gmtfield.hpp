@@ -6,12 +6,20 @@
 #include <QTime>
 #include <QDateTime>
 #include <QTimeZone>
+#include <QRegularExpression>
 
 static qint64 SEC_IN_MICRO = 1000000L;
 static qint64 MILLI_IN_MICRO = 1000L;
 static qint64 DAY_IN_MICRO = 86400000000L;
 static qint64 HOUR_IN_MICRO = 3600000000L;
 static qint64 MINUTE_IN_MICRO = 60000000L;
+
+static QMap<QString, QRegularExpression> gmtFormats {{"%j-%H:%M:%S-%f.%f", QRegularExpression("^[0-3][0-6][0-9]-[0-2][0-9](:[0-5][0-9]){2}-[0-9]{3}.[0-9]{3}$", QRegularExpression::NoPatternOption)},
+                                                     {"%j-%H:%M:%S-%f", QRegularExpression("^[0-3][0-6][0-9]-[0-2][0-9](:[0-5][0-9]){2}-[0-9]{3}$", QRegularExpression::NoPatternOption)},
+                                                     {"%j-%H:%M:%S:%f", QRegularExpression("^[0-3][0-6][0-9]-[0-2][0-9](:[0-5][0-9]){2}:[0-9]{3}$", QRegularExpression::NoPatternOption)},
+                                                     {"%j-%H:%M:%S", QRegularExpression("^[0-3][0-6][0-9]-[0-2][0-9](:[0-5][0-9]){2}$", QRegularExpression::NoPatternOption)},
+                                                     {"hh:mm:ss:zzz", QRegularExpression("^[0-2][0-9](:[0-5][0-9]){2}:[0-9]{3}$", QRegularExpression::NoPatternOption)}};
+QString findGmtFormat(const QString &gmtFormat);
 
 class GmtField : public Field {
 

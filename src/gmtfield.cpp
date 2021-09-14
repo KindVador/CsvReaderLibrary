@@ -92,3 +92,13 @@ QTime GmtField::getTime() const {
 qint64 GmtField::getValue() const {
     return _value;
 }
+
+QString findGmtFormat(const QString &gmtFormat) {
+    QMapIterator<QString, QRegularExpression> itGmtFormats(gmtFormats);
+    while (itGmtFormats.hasNext()) {
+        itGmtFormats.next();
+        if (itGmtFormats.value().match(gmtFormat, QRegularExpression::NormalMatch).hasMatch())
+            return itGmtFormats.key();
+    }
+    return {};
+}
