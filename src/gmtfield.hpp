@@ -18,19 +18,19 @@ class GmtField : public Field {
 public:
     // constructors
     GmtField() = default;
-    explicit GmtField(long long int value);
+    explicit GmtField(long long int value, int year=1970);
 
     // destructor
     ~GmtField() = default;
 
     // classmethods
-    static bool isGmt(QString str);
-    static GmtField fromDateTime(QDateTime dt);
+    static GmtField fromDateTime(const QDateTime &dt);
     static GmtField fromString(const QString &str, const QString &format);
 
     // Getter & Setter
     [[nodiscard]] int getYear() const;
     void setYear(int year);
+    [[nodiscard]] long long int getValue() const;
 
     // methods
     [[nodiscard]] QDateTime toDateTime(const QTimeZone &tz=QTimeZone::utc()) const;

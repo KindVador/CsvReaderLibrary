@@ -135,6 +135,35 @@ private slots:
         QCOMPARE(gmt.toDateTime(tz), QDateTime(date, time, tz));
     }
 
+    void testFromDateTime_data() {
+        QTest::addColumn<long long int>("value");
+        QTest::addColumn<int>("year");
+        QTest::addColumn<QDate>("date");
+        QTest::addColumn<QTime>("time");
+        QTest::addColumn<QTimeZone>("tz");
+
+        QTest::addRow("%d", 0) << (long long int)0 << 1970 << QDate(1970, 1, 1) << QTime(0, 0, 0) << QTimeZone::utc();
+        QTest::addRow("%d", 1) << DAY_IN_MICRO + HOUR_IN_MICRO << 1970 << QDate(1970, 1, 2) << QTime(1, 0, 0) << QTimeZone::utc();
+        QTest::addRow("%d", 2) << 2*DAY_IN_MICRO + MINUTE_IN_MICRO << 1970 << QDate(1970, 1, 3) << QTime(0, 1, 0) << QTimeZone::utc();
+        QTest::addRow("%d", 3) << 31*DAY_IN_MICRO + SEC_IN_MICRO << 2021 << QDate(2021, 2, 1) << QTime(0, 0, 1) << QTimeZone::utc();
+        QTest::addRow("%d", 4) << 207*DAY_IN_MICRO + 13*HOUR_IN_MICRO + 31*MINUTE_IN_MICRO + 55*SEC_IN_MICRO << 1983 << QDate(1983, 7, 27) << QTime(13, 31, 55) << QTimeZone::utc();
+        QTest::addRow("%d", 5) << 23*HOUR_IN_MICRO + 59*MINUTE_IN_MICRO + 59*SEC_IN_MICRO << 1984 << QDate(1984, 1, 1) << QTime(23, 59, 59) << QTimeZone(3600);
+    }
+
+    void testFromDateTime() {
+        QFETCH(long long int, value);
+        QFETCH(int, year);
+        QFETCH(QDate, date);
+        QFETCH(QTime, time);
+        QFETCH(QTimeZone, tz);
+
+        auto inputDateTime = QDateTime(date, time, tz);
+        auto gmt = GmtField::fromDateTime(inputDateTime);
+        auto outputDateTime = gmt.toDateTime(tz);
+        QCOMPARE(outputDateTime, inputDateTime);
+        QCOMPARE(gmt.getValue(), value);
+    }
+
 //    void testDateTimeParsing_data() {
 //        QTest::addColumn<QString>("format");
 //        QTest::addColumn<QString>("value");

@@ -1,7 +1,7 @@
 #include "gmtfield.hpp"
 
 
-GmtField::GmtField(long long int value): _value(value) {
+GmtField::GmtField(long long int value, int year): _value(value), _year(year) {
 }
 
 QDateTime GmtField::toDateTime(const QTimeZone &tz) const {
@@ -44,14 +44,14 @@ std::string GmtField::toStdString() const {
     return toString().toStdString();
 }
 
-GmtField GmtField::fromDateTime(QDateTime dt) {
-    // TODO
-    return GmtField();
-}
-
-bool GmtField::isGmt(QString str) {
-    // TODO
-    return false;
+GmtField GmtField::fromDateTime(const QDateTime &dt) {
+    if (!dt.isValid())
+        return {};
+    int year = dt.date().year();
+    long long int value = dt.toMSecsSinceEpoch() - QDateTime(QDate(year, 1, 1), QTime(0,0,0), dt.timeZone()).toMSecsSinceEpoch();
+    // as QDateTime has a precision of 1 millisecond we need to multiply the value by 1000 to convert into microsecond
+    value *= 1000;
+    return GmtField(value, year);
 }
 
 long long int GmtField::toTimeStamp() const {
@@ -87,4 +87,8 @@ QTime GmtField::getTime() const {
     int ms = int(rest / MILLI_IN_MICRO);
 
     return {hh, mm, ss, ms};
+}
+
+long long int GmtField::getValue() const {
+    return _value;
 }
