@@ -7,18 +7,18 @@
 #include <QDateTime>
 #include <QTimeZone>
 
-static long long int SEC_IN_MICRO = 1000000L;
-static long long int MILLI_IN_MICRO = 1000L;
-static long long int DAY_IN_MICRO = 86400000000L;
-static long long int HOUR_IN_MICRO = 3600000000L;
-static long long int MINUTE_IN_MICRO = 60000000L;
+static qint64 SEC_IN_MICRO = 1000000L;
+static qint64 MILLI_IN_MICRO = 1000L;
+static qint64 DAY_IN_MICRO = 86400000000L;
+static qint64 HOUR_IN_MICRO = 3600000000L;
+static qint64 MINUTE_IN_MICRO = 60000000L;
 
 class GmtField : public Field {
 
 public:
     // constructors
     GmtField() = default;
-    explicit GmtField(long long int value, int year=1970);
+    explicit GmtField(qint64 value, int year=1970);
 
     // destructor
     ~GmtField() = default;
@@ -30,11 +30,11 @@ public:
     // Getter & Setter
     [[nodiscard]] int getYear() const;
     void setYear(int year);
-    [[nodiscard]] long long int getValue() const;
+    [[nodiscard]] qint64 getValue() const;
 
     // methods
     [[nodiscard]] QDateTime toDateTime(const QTimeZone &tz=QTimeZone::utc()) const;
-    [[nodiscard]] long long int toTimeStamp() const;
+    [[nodiscard]] qint64 toTimeStamp() const;
     [[nodiscard]] QString toString() const override;
     [[nodiscard]] std::string toStdString() const override;
     [[nodiscard]] QDate getDate() const;

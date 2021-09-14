@@ -1,7 +1,7 @@
 #include "gmtfield.hpp"
 
 
-GmtField::GmtField(long long int value, int year): _value(value), _year(year) {
+GmtField::GmtField(qint64 value, int year): _value(value), _year(year) {
 }
 
 QDateTime GmtField::toDateTime(const QTimeZone &tz) const {
@@ -14,7 +14,7 @@ GmtField GmtField::fromString(const QString &str, const QString &format) {
 
 QString GmtField::toString() const {
     int yd = int(_value / DAY_IN_MICRO + 1);
-    long long int rest = _value % DAY_IN_MICRO;
+    qint64 rest = _value % DAY_IN_MICRO;
 
     int hh = int(rest / HOUR_IN_MICRO);
     rest %= HOUR_IN_MICRO;
@@ -48,13 +48,13 @@ GmtField GmtField::fromDateTime(const QDateTime &dt) {
     if (!dt.isValid())
         return {};
     int year = dt.date().year();
-    long long int value = dt.toMSecsSinceEpoch() - QDateTime(QDate(year, 1, 1), QTime(0,0,0), dt.timeZone()).toMSecsSinceEpoch();
+    qint64 value = dt.toMSecsSinceEpoch() - QDateTime(QDate(year, 1, 1), QTime(0,0,0), dt.timeZone()).toMSecsSinceEpoch();
     // as QDateTime has a precision of 1 millisecond we need to multiply the value by 1000 to convert into microsecond
     value *= 1000;
     return GmtField(value, year);
 }
 
-long long int GmtField::toTimeStamp() const {
+qint64 GmtField::toTimeStamp() const {
     // TODO
     return _value;
 }
@@ -73,7 +73,7 @@ QDate GmtField::getDate() const {
 }
 
 QTime GmtField::getTime() const {
-    long long int rest = _value % DAY_IN_MICRO;
+    qint64 rest = _value % DAY_IN_MICRO;
 
     int hh = int(rest / HOUR_IN_MICRO);
     rest %= HOUR_IN_MICRO;
@@ -89,6 +89,6 @@ QTime GmtField::getTime() const {
     return {hh, mm, ss, ms};
 }
 
-long long int GmtField::getValue() const {
+qint64 GmtField::getValue() const {
     return _value;
 }
