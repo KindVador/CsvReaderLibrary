@@ -48,6 +48,10 @@ public:
     [[nodiscard]] QDate getDate() const;
     [[nodiscard]] QTime getTime() const;
 
+    // operators
+    bool operator==(const GmtField &rhs) const;
+    bool operator!=(const GmtField &rhs) const;
+
 private:
     long long int _value = 0;
     int _year = 1970;

@@ -27,6 +27,32 @@ private slots:
         QCOMPARE(gmt->toTimeStamp(), 1000000L);
     }
 
+    void testEqualityOperators() {
+        auto gmt1 = GmtField();
+        auto gmt2 = GmtField();
+        auto gmt3 = GmtField(10*HOUR_IN_MICRO + 35*MINUTE_IN_MICRO + 49*SEC_IN_MICRO, 2021);
+        auto gmt4 = GmtField(10*HOUR_IN_MICRO + 35*MINUTE_IN_MICRO + 49*SEC_IN_MICRO, 2021);
+        auto gmt5 = GmtField(10*HOUR_IN_MICRO + 35*MINUTE_IN_MICRO + 49*SEC_IN_MICRO, 1983);
+
+        // equality checks
+        QVERIFY(gmt1 == gmt2);
+        QVERIFY(gmt2 == gmt1);
+        QVERIFY(gmt3 == gmt4);
+        QVERIFY(gmt4 == gmt3);
+        QCOMPARE(gmt1 == gmt3, false);
+        QCOMPARE(gmt4 == gmt2, false);
+        QCOMPARE(gmt3 == gmt5, false);
+
+        // non-equality checks
+        QCOMPARE(gmt1 != gmt2, false);
+        QCOMPARE(gmt2 != gmt1, false);
+        QCOMPARE(gmt3 != gmt4, false);
+        QCOMPARE(gmt4 != gmt3, false);
+        QVERIFY(gmt1 != gmt3);
+        QVERIFY(gmt4 != gmt2);
+        QVERIFY(gmt3 != gmt5);
+    }
+
     void testToString_data() {
         QTest::addColumn<long long int>("value");
         QTest::addColumn<QString>("result");

@@ -102,3 +102,11 @@ QString findGmtFormat(const QString &gmtFormat) {
     }
     return {};
 }
+
+bool GmtField::operator==(const GmtField &rhs) const {
+    return _value == rhs._value && _year == rhs._year;
+}
+
+bool GmtField::operator!=(const GmtField &rhs) const {
+    return !(rhs == *this);
+}
