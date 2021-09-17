@@ -190,17 +190,19 @@ private slots:
         QCOMPARE(gmt.getValue(), value);
     }
 
-    void testfindGmtFormat_data() {
+    void testFindGmtFormat_data() {
         QTest::addColumn<QString>("input");
         QTest::addColumn<QString>("result");
 
         QTest::addRow("FORMAT: %%j-%%H:%%M:%%S-%%f.%%f") << "002-10:55:00-000.000" << "%j-%H:%M:%S-%f.%f";
+        QTest::addRow("FORMAT: %%j-%%H:%%M:%%S-%%f.%%f") << "083-01:10:20-125.068" << "%j-%H:%M:%S-%f.%f";
         QTest::addRow("FORMAT: %%j-%%H:%%M:%%S-%%f") << "144-14:25:00-062" << "%j-%H:%M:%S-%f";
+        QTest::addRow("FORMAT: %%j-%%H:%%M:%%S-%%f") << "099-01:10:20-125" << "%j-%H:%M:%S-%f";
         QTest::addRow("FORMAT: %%j-%%H:%%M:%%S:%%f") << "042-13:55:00:250" << "%j-%H:%M:%S:%f";
         QTest::addRow("FORMAT: %%j-%%H:%%M:%%S") << "002-10:55:00" << "%j-%H:%M:%S";
     }
 
-    void testfindGmtFormat() {
+    void testFindGmtFormat() {
         QFETCH(QString, input);
         QFETCH(QString, result);
 
