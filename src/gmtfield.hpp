@@ -14,11 +14,11 @@ static qint64 DAY_IN_MICRO = 86400000000L;
 static qint64 HOUR_IN_MICRO = 3600000000L;
 static qint64 MINUTE_IN_MICRO = 60000000L;
 
-static QMap<QString, QRegularExpression> gmtFormats {{"%j-%H:%M:%S-%f.%f", QRegularExpression("^[0-3][0-6][0-9]-[0-2][0-9](:[0-5][0-9]){2}-[0-9]{3}.[0-9]{3}$", QRegularExpression::NoPatternOption)},
-                                                     {"%j-%H:%M:%S-%f", QRegularExpression("^[0-3][0-6][0-9]-[0-2][0-9](:[0-5][0-9]){2}-[0-9]{3}$", QRegularExpression::NoPatternOption)},
-                                                     {"%j-%H:%M:%S:%f", QRegularExpression("^[0-3][0-6][0-9]-[0-2][0-9](:[0-5][0-9]){2}:[0-9]{3}$", QRegularExpression::NoPatternOption)},
-                                                     {"%j-%H:%M:%S", QRegularExpression("^[0-3][0-6][0-9]-[0-2][0-9](:[0-5][0-9]){2}$", QRegularExpression::NoPatternOption)},
-                                                     {"hh:mm:ss:zzz", QRegularExpression("^[0-2][0-9](:[0-5][0-9]){2}:[0-9]{3}$", QRegularExpression::NoPatternOption)}};
+static QMap<QString, QRegularExpression> gmtFormats {{"%j-%H:%M:%S-%f.%f", QRegularExpression("^(?<j>[0-3][0-6][0-9])-(?<H>[0-2][0-9]):(?<M>[0-5][0-9]):(?<S>[0-5][0-9])-(?<f>[0-9]{3}.[0-9]{3})$", QRegularExpression::NoPatternOption)},
+                                                     {"%j-%H:%M:%S-%f", QRegularExpression("^(?<j>[0-3][0-6][0-9])-(?<H>[0-2][0-9]):(?<M>[0-5][0-9]):(?<S>[0-5][0-9])-(?<f>[0-9]{3})$", QRegularExpression::NoPatternOption)},
+                                                     {"%j-%H:%M:%S:%f", QRegularExpression("^(?<j>[0-3][0-6][0-9])-(?<H>[0-2][0-9]):(?<M>[0-5][0-9]):(?<S>[0-5][0-9]):(?<f>[0-9]{3})$", QRegularExpression::NoPatternOption)},
+                                                     {"%j-%H:%M:%S", QRegularExpression("^(?<j>[0-3][0-6][0-9])-(?<H>[0-2][0-9]):(?<M>[0-5][0-9]):(?<S>[0-5][0-9])$", QRegularExpression::NoPatternOption)},
+                                                     {"hh:mm:ss:zzz", QRegularExpression("^(?<H>[0-2][0-9]):(?<M>[0-5][0-9]):(?<S>[0-5][0-9]):(?<f>[0-9]{3})$", QRegularExpression::NoPatternOption)}};
 QString findGmtFormat(const QString &gmtFormat);
 
 class GmtField : public Field {
