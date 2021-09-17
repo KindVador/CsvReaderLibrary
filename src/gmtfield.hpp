@@ -33,7 +33,7 @@ public:
 
     // classmethods
     static GmtField fromDateTime(const QDateTime &dt);
-    static GmtField fromString(const QString &str, const QString &format);
+    static GmtField fromString(QString &gmt, int year=1970);
 
     // Getter & Setter
     [[nodiscard]] int getYear() const;

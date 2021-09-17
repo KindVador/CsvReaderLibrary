@@ -1,5 +1,5 @@
 #include "gmtfield.hpp"
-
+#include "unsupportedformat.hpp"
 
 GmtField::GmtField(qint64 value, int year): _value(value), _year(year) {
 }
@@ -8,8 +8,53 @@ QDateTime GmtField::toDateTime(const QTimeZone &tz) const {
     return {getDate(), getTime(), tz};
 }
 
-GmtField GmtField::fromString(const QString &str, const QString &format) {
-    return {};
+GmtField GmtField::fromString(QString &gmt, int year) {
+    // check that string format is compliant with one of the supported formats
+    QString gmtFormat = findGmtFormat(gmt);
+    qDebug() << "gmtFormat=" << gmtFormat;
+    if (gmtFormat.isEmpty())
+        throw UnsupportedFormat();
+
+    // Apply regex and init nbMicroSeconds to 0
+    QRegularExpression regex = gmtFormats.value(gmtFormat);
+    QRegularExpressionMatch matchResult = regex.match(gmt);
+    qint64 nbMicroSeconds = 0;
+
+    // check if format contains a nb of year's day.
+    if (gmtFormat.contains("%j")) {
+        int nbDays = matchResult.captured("j").toInt();
+        qDebug() << "nbDays=" << nbDays << matchResult.captured("j");
+        if (nbDays < 1 || nbDays > 365)
+            throw std::range_error("Out of range value for year's day, should be included in 1-365 range.");
+        nbMicroSeconds += (nbDays - 1) * DAY_IN_MICRO;
+    }
+
+    // check if format contains a nb of hours.
+    if (gmtFormat.contains("%H") || gmtFormat.contains("hh"))
+        nbMicroSeconds += matchResult.captured("H").toInt() * HOUR_IN_MICRO;
+
+    // check if format contains a nb of minutes.
+    if (gmtFormat.contains("%M") || gmtFormat.contains("mm"))
+        nbMicroSeconds += matchResult.captured("M").toInt() * MINUTE_IN_MICRO;
+
+    // check if format contains a nb of seconds.
+    if (gmtFormat.contains("%S") || gmtFormat.contains("ss"))
+        nbMicroSeconds += matchResult.captured("S").toInt() * SEC_IN_MICRO;
+
+    if (gmtFormat.contains("%f") || gmtFormat.contains("zzz")) {
+        // specific case for microseconds separated from milliseconds separated by a `.`
+        QString milliSecondsString = matchResult.captured("f");
+        if (milliSecondsString.contains(".")) {
+            // case f is a number of microseconds
+            milliSecondsString = milliSecondsString.replace(QLatin1String("."), QLatin1String(""));
+            nbMicroSeconds += milliSecondsString.toInt();
+        } else {
+            // case f is a number of milliseconds
+            nbMicroSeconds += milliSecondsString.toInt() * MILLI_IN_MICRO;
+        }
+    }
+
+    return GmtField(nbMicroSeconds, year);
 }
 
 QString GmtField::toString() const {
