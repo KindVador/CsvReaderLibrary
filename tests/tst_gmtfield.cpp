@@ -225,11 +225,6 @@ private slots:
         QTest::addRow("%d", 8) << "365-23:59:59" << 1970 << GmtField(364*DAY_IN_MICRO + 23*HOUR_IN_MICRO + 59*MINUTE_IN_MICRO + 59*SEC_IN_MICRO, 1970);
         QTest::addRow("%d", 9) << "083-01:10:20-125" << 1970 << GmtField(82*DAY_IN_MICRO + 1*HOUR_IN_MICRO + 10*MINUTE_IN_MICRO + 20*SEC_IN_MICRO + 125*MILLI_IN_MICRO, 1970);
         QTest::addRow("%d", 10) << "083-01:10:20-125.068" << 2020 << GmtField(82*DAY_IN_MICRO + 1*HOUR_IN_MICRO + 10*MINUTE_IN_MICRO + 20*SEC_IN_MICRO + 125*MILLI_IN_MICRO + 68, 2020);
-
-//        QTest::addRow("FORMAT: %%j-%%H:%%M:%%S-%%f.%%f") << "002-10:55:00-000.000" << "%j-%H:%M:%S-%f.%f";
-//        QTest::addRow("FORMAT: %%j-%%H:%%M:%%S-%%f") << "144-14:25:00-062" << "%j-%H:%M:%S-%f";
-//        QTest::addRow("FORMAT: %%j-%%H:%%M:%%S:%%f") << "042-13:55:00:250" << "%j-%H:%M:%S:%f";
-//        QTest::addRow("FORMAT: %%j-%%H:%%M:%%S") << "002-10:55:00" << "%j-%H:%M:%S";
     }
 
     void testFromString() {
